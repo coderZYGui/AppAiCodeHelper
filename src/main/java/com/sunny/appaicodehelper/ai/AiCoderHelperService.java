@@ -1,9 +1,12 @@
 package com.sunny.appaicodehelper.ai;
 
 import com.sunny.appaicodehelper.guardrail.SafeInputGuardrail;
+import dev.langchain4j.service.MemoryId;
 import dev.langchain4j.service.Result;
 import dev.langchain4j.service.SystemMessage;
+import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.guardrail.InputGuardrails;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -33,4 +36,9 @@ public interface AiCoderHelperService {
     record Report(String name, List<String>suggestionList){
 
     }
+
+
+    // 流式对话
+    Flux<String> chatStream(@MemoryId int memoryId, @UserMessage String userMessage);
+
 }

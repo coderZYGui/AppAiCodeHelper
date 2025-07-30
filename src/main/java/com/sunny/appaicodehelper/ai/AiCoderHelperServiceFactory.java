@@ -4,6 +4,7 @@ import com.sunny.appaicodehelper.tools.InterviewQuestionTool;
 import dev.langchain4j.mcp.McpToolProvider;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.service.AiServices;
 import jakarta.annotation.Resource;
@@ -29,6 +30,9 @@ public class AiCoderHelperServiceFactory {
 
     @Resource
     private McpToolProvider mcpToolProvider;
+
+    @Resource
+    private StreamingChatModel streamingChatModel;
 
 //    @Bean
 //    public AiCoderHelperService createAiCoderHelperService() {
@@ -72,6 +76,8 @@ public class AiCoderHelperServiceFactory {
         return AiServices.builder(AiCoderHelperService.class)
                 .chatModel(myQwenChatModel) // 使用Qwen大语言模型
                 .chatMemory(chatMemory)
+                .streamingChatModel(streamingChatModel) // 流式LLM 支持 SSE流式输出, AI返回打字效果
+                .chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(10)) //每个会话独立存储
                 .contentRetriever(contentRetriever) // RAG检索增强生成
                 .tools(new InterviewQuestionTool()) // 添加工具
                 .toolProvider(mcpToolProvider) // 添加MCP工具
