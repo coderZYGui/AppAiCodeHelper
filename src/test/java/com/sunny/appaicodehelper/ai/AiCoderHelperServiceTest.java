@@ -48,4 +48,10 @@ class AiCoderHelperServiceTest {
         System.out.println(result.content());
         System.out.println(result.sources());
     }
+
+    @Test
+    void chatWithTools() {
+        String result = aiCoderHelperService.chat("CAP原理是什么");
+        System.out.println(result);
+    }
 }

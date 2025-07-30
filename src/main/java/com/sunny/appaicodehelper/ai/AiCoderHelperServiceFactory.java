@@ -1,5 +1,6 @@
 package com.sunny.appaicodehelper.ai;
 
+import com.sunny.appaicodehelper.tools.InterviewQuestionTool;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
@@ -46,8 +47,20 @@ public class AiCoderHelperServiceFactory {
 
 
     // -----四、RAG, 关联LLM、RAG,使查询增强-----
+//    @Bean
+//    public AiCoderHelperService aiCoderHelperService3() {
+//        // 会话记忆
+//        MessageWindowChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
+//        // 构造ai service
+//        return AiServices.builder(AiCoderHelperService.class)
+//                .chatModel(qwenChatModel) // 使用Qwen大语言模型
+//                .chatMemory(chatMemory)
+//                .contentRetriever(contentRetriever) // RAG检索增强生成
+//                .build();
+//    }
+
     @Bean
-    public AiCoderHelperService aiCoderHelperService3() {
+    public AiCoderHelperService aiCoderHelperService() {
         // 会话记忆
         MessageWindowChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
         // 构造ai service
@@ -55,6 +68,7 @@ public class AiCoderHelperServiceFactory {
                 .chatModel(qwenChatModel) // 使用Qwen大语言模型
                 .chatMemory(chatMemory)
                 .contentRetriever(contentRetriever) // RAG检索增强生成
+                .tools(new InterviewQuestionTool()) // 添加工具
                 .build();
     }
 }
