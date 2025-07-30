@@ -15,6 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class AiCoderHelperServiceTest {
 
 
+    /**
+     * 通过AiCoderHelperServiceFactory工厂来创建的, 并注入进来
+     */
     @Resource
     private AiCoderHelperService aiCoderHelperService;
 
@@ -41,7 +44,7 @@ class AiCoderHelperServiceTest {
 
     @Test // 测试RAG检索增强生成
     void chatForRAG() {
-        Result<String> result = aiCoderHelperService.chatWithRag("怎么学习 Java？有哪些常见面试题？");
+        Result<String> result = aiCoderHelperService.chatWithRag("在学习Java项目开发中, 有什么学习建议?");
         System.out.println(result.content());
         System.out.println(result.sources());
     }

@@ -44,13 +44,15 @@ public class AiCoderHelperServiceFactory {
 //                .build();
 //    }
 
+
+    // -----四、RAG, 关联LLM、RAG,使查询增强-----
     @Bean
     public AiCoderHelperService aiCoderHelperService3() {
         // 会话记忆
         MessageWindowChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
         // 构造ai service
         return AiServices.builder(AiCoderHelperService.class)
-                .chatModel(qwenChatModel)
+                .chatModel(qwenChatModel) // 使用Qwen大语言模型
                 .chatMemory(chatMemory)
                 .contentRetriever(contentRetriever) // RAG检索增强生成
                 .build();

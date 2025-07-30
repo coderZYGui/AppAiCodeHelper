@@ -31,12 +31,14 @@ public class RagConfig {
 
     @Bean
     public ContentRetriever contentRetriever() {
-        // -----RAG-----
+        // -----一、RAG, 文档收集和切割-----
         //1. 加载我们添加的知识库
         List<Document> documents = FileSystemDocumentLoader.loadDocuments("src/main/resources/docs");
         //2. 文档切割: 将每个文档每段进行分割, 最大1000字符, 每次重叠最多200个字符
         DocumentByParagraphSplitter splitter = new DocumentByParagraphSplitter(1000, 200);
-        //3. 自定义文档加载器
+
+        // -----二、RAG, 文档加载器将文档转位向量,向量存储-----
+        //3. 自定义文档加载器,把文档转换为向量保存到向量数据库中
         EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder().documentSplitter(splitter)
                 // 为了提高搜索质量，为每个 TextSegment 添加文档名称
                 .textSegmentTransformer(textSegment -> TextSegment.from(
@@ -45,18 +47,19 @@ public class RagConfig {
                 ))
                 // 指定向量模型
                 .embeddingModel(qwenEmbeddingModel)
-                .embeddingStore(embeddingStore)
+                .embeddingStore(embeddingStore) // 向量存储
                 .build();
         // 加载文档
         ingestor.ingest(documents);
 
+        // -----三、RAG, 文档过滤和检索(检索条件)-----
         //4. 创建内容检索器
-        // 4. 自定义内容查询器
+        // 4. 自定义内容查询器 (检索条件)
         ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
                 .embeddingModel(qwenEmbeddingModel)
                 .maxResults(5) // 最多 5 个检索结果
-                .minScore(0.75) // 过滤掉分数小于 0.75 的结果
+                .minScore(0.8) // 过滤掉分数小于 0.75 的结果 (分数越高越相关)
                 .build();
 
         return contentRetriever;
