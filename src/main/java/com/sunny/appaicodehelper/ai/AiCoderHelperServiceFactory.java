@@ -1,6 +1,7 @@
 package com.sunny.appaicodehelper.ai;
 
 import com.sunny.appaicodehelper.tools.InterviewQuestionTool;
+import dev.langchain4j.mcp.McpToolProvider;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
@@ -24,6 +25,9 @@ public class AiCoderHelperServiceFactory {
 
     @Resource
     private ContentRetriever contentRetriever;
+
+    @Resource
+    private McpToolProvider mcpToolProvider;
 
 //    @Bean
 //    public AiCoderHelperService createAiCoderHelperService() {
@@ -69,6 +73,7 @@ public class AiCoderHelperServiceFactory {
                 .chatMemory(chatMemory)
                 .contentRetriever(contentRetriever) // RAG检索增强生成
                 .tools(new InterviewQuestionTool()) // 添加工具
+                .toolProvider(mcpToolProvider) // 添加MCP工具
                 .build();
     }
 }

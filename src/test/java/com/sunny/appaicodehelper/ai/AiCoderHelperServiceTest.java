@@ -54,4 +54,10 @@ class AiCoderHelperServiceTest {
         String result = aiCoderHelperService.chat("有哪些常见的计算机网络面试题？");
         System.out.println(result);
     }
+
+    @Test
+    void chatWithMcp() {
+        String result = aiCoderHelperService.chat("CSDN 白骆驼");
+        System.out.println(result);
+    }
 }
