@@ -60,4 +60,10 @@ class AiCoderHelperServiceTest {
         String result = aiCoderHelperService.chat("CSDN 白骆驼");
         System.out.println(result);
     }
+
+    @Test
+    void chatWithGuardrail() {
+        String result = aiCoderHelperService.chat("我是谁, 我在哪");
+        System.out.println(result);
+    }
 }

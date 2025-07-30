@@ -1,7 +1,9 @@
 package com.sunny.appaicodehelper.ai;
 
+import com.sunny.appaicodehelper.guardrail.SafeInputGuardrail;
 import dev.langchain4j.service.Result;
 import dev.langchain4j.service.SystemMessage;
+import dev.langchain4j.service.guardrail.InputGuardrails;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ import java.util.List;
 
 
 //@AiService
+@InputGuardrails(SafeInputGuardrail.class)
 public interface AiCoderHelperService {
 
 
