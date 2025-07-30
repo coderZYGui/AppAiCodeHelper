@@ -31,7 +31,7 @@ public class AiCodeHelper {
             请用简洁易懂的语言回答，助力用户高效学习与求职。
             """;
 
-    public String chat(String prompt) {
+    public void chat(String prompt) {
         // 将输入的prompt转换为UserMessage对象
         UserMessage userMessage = UserMessage.from(prompt);
         // 使用qwenChatModel对象进行聊天
@@ -41,22 +41,22 @@ public class AiCodeHelper {
         // 打印AI消息
         log.info("AI 输出: {}", aiMessage.toString());
         // 返回AI消息的文本内容
-        return aiMessage.text();
+//        return aiMessage.text();
     }
 
-    public String chatWithMessage (UserMessage userMessage) {
+    public void chatWithMessage (UserMessage userMessage) {
         ChatResponse chatResponse = qwenChatModel.chat(userMessage);
         AiMessage aiMessage = chatResponse.aiMessage();
         log.info("chatWithMessage AI 输出: {}", aiMessage.toString());
-        return aiMessage.text();
+//        return aiMessage.text();
     }
 
-    public String chatWithSystemPrompt(String prompt) {
+    public void chatWithSystemPrompt(String prompt) {
         SystemMessage systemMessage = SystemMessage.from(SYSTEM_PROMPT);
         UserMessage userMessage = UserMessage.from(prompt);
         ChatResponse chatResponse = qwenChatModel.chat(systemMessage, userMessage);
         AiMessage aiMessage = chatResponse.aiMessage();
         log.info("chatWithSystemPrompt AI 输出: {}", aiMessage.toString());
-        return aiMessage.text();
+//        return aiMessage.text();
     }
 }
