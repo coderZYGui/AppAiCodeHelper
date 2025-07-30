@@ -21,7 +21,8 @@ public class AiCoderHelperServiceFactory {
 
 
     @Resource
-    private ChatModel qwenChatModel;
+//    private ChatModel qwenChatModel;
+    private ChatModel myQwenChatModel; // 使用自定义的Qwen大模型
 
     @Resource
     private ContentRetriever contentRetriever;
@@ -69,7 +70,7 @@ public class AiCoderHelperServiceFactory {
         MessageWindowChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
         // 构造ai service
         return AiServices.builder(AiCoderHelperService.class)
-                .chatModel(qwenChatModel) // 使用Qwen大语言模型
+                .chatModel(myQwenChatModel) // 使用Qwen大语言模型
                 .chatMemory(chatMemory)
                 .contentRetriever(contentRetriever) // RAG检索增强生成
                 .tools(new InterviewQuestionTool()) // 添加工具
