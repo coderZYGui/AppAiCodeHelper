@@ -32,7 +32,7 @@ class AiCoderHelperServiceTest {
     void chatWithMemory() {
         String result = aiCoderHelperService.chat("你好, 我是雷军");
         System.out.println(result);
-        result = aiCoderHelperService.chat("我是谁, 你知道吗");
+        result = aiCoderHelperService.chat("我是谁, 你知道吗!");
         System.out.println(result);
     }
 
