@@ -1,0 +1,24 @@
+# 复制本文件为 application-local.yml, 再填入真实密钥。
+# application-local.yml 已被 .gitignore 忽略, 不会进入版本库。
+#
+# 也可以用环境变量代替本文件:
+#   export DEEPSEEK_API_KEY=sk-xxx
+
+langchain4j:
+  deepseek:
+    # 【必填】DeepSeek 对话模型密钥, 申请地址 https://platform.deepseek.com/api_keys
+    # 缺失时应用会启动失败并给出明确提示
+    api-key: sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+  qwen:
+    embedding:
+      # 【选填】RAG 向量化用的 DashScope 密钥。
+      # DeepSeek 未提供 embeddings 接口(/v1/embeddings 返回 404), 因此 RAG 的向量化仍使用 Qwen。
+      # 不配置则 RAG 链路整体关闭, 对话/流式/工具等能力不受影响, 应用照常启动。
+      api-key: sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+bigmodel:
+  # 【选填】智谱 web_search MCP 密钥。不配置则 MCP 能力关闭, 不影响其他功能。
+  # 注意: 智谱要求把该密钥放在 URL query 上, 因此请保持 bigmodel.mcp.logging=false,
+  # 否则密钥会被完整打印到日志中。
+  api-key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

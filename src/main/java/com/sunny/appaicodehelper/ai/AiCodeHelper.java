@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 /**
  * Author: guizy
  * Date: 2025/7/30
- * Description:
+ * Description: 直接使用 ChatModel 的基础调用示例, 作为 AiServices 之外的原生用法对照。
  */
 
 @Service
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class AiCodeHelper {
 
     @Resource
-    private ChatModel qwenChatModel;
+    private ChatModel deepSeekChatModel;
 
     private static final String SYSTEM_PROMPT = """
             你是编程领域的小助手，帮助用户解答编程学习和求职面试相关的问题，并给出建议。重点关注 4 个方向：
@@ -31,32 +31,25 @@ public class AiCodeHelper {
             请用简洁易懂的语言回答，助力用户高效学习与求职。
             """;
 
-    public void chat(String prompt) {
+    public String chat(String prompt) {
         // 将输入的prompt转换为UserMessage对象
-        UserMessage userMessage = UserMessage.from(prompt);
-        // 使用qwenChatModel对象进行聊天
-        ChatResponse chatResponse = qwenChatModel.chat(userMessage);
+        return chatWithMessage(UserMessage.from(prompt));
+    }
+
+    public String chatWithMessage(UserMessage userMessage) {
+        // 使用 deepSeekChatModel 对象进行聊天
+        ChatResponse chatResponse = deepSeekChatModel.chat(userMessage);
         // 获取聊天结果中的AI消息
         AiMessage aiMessage = chatResponse.aiMessage();
-        // 打印AI消息
-        log.info("AI 输出: {}", aiMessage.toString());
-        // 返回AI消息的文本内容
-//        return aiMessage.text();
+        log.info("chatWithMessage AI 输出: {}", aiMessage.text());
+        return aiMessage.text();
     }
 
-    public void chatWithMessage (UserMessage userMessage) {
-        ChatResponse chatResponse = qwenChatModel.chat(userMessage);
+    public String chatWithSystemPrompt(String prompt) {
+        ChatResponse chatResponse = deepSeekChatModel.chat(
+                SystemMessage.from(SYSTEM_PROMPT), UserMessage.from(prompt));
         AiMessage aiMessage = chatResponse.aiMessage();
-        log.info("chatWithMessage AI 输出: {}", aiMessage.toString());
-//        return aiMessage.text();
-    }
-
-    public void chatWithSystemPrompt(String prompt) {
-        SystemMessage systemMessage = SystemMessage.from(SYSTEM_PROMPT);
-        UserMessage userMessage = UserMessage.from(prompt);
-        ChatResponse chatResponse = qwenChatModel.chat(systemMessage, userMessage);
-        AiMessage aiMessage = chatResponse.aiMessage();
-        log.info("chatWithSystemPrompt AI 输出: {}", aiMessage.toString());
-//        return aiMessage.text();
+        log.info("chatWithSystemPrompt AI 输出: {}", aiMessage.text());
+        return aiMessage.text();
     }
 }

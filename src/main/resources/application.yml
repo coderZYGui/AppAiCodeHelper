@@ -1,5 +1,40 @@
+server:
+  # 与前端 App.vue、AppAICodeHelperVue/使用说明.md 的约定保持一致
+  port: 8081
+  servlet:
+    context-path: /api
+
 spring:
   application:
     name: AppAiCodeHelper
   profiles:
     active: local
+
+langchain4j:
+  deepseek:
+    base-url: https://api.deepseek.com/v1
+    chat-model-name: deepseek-flash
+    timeout: 60s
+    # api-key 属于机密, 不写在本文件:
+    # 请在 application-local.yml 中配置 langchain4j.deepseek.api-key, 或设置环境变量 DEEPSEEK_API_KEY
+    api-key: ${DEEPSEEK_API_KEY:}
+    # 该模型为推理模型, 留空使用服务端默认(high); 想要更快的首字响应可设为 low
+    # reasoning-effort: low
+
+  qwen:
+    embedding:
+      # 仅 RAG 向量化使用(DeepSeek 未提供 embeddings 接口)。
+      # 未配置 api-key 时 RAG 链路自动关闭, 应用仍可正常启动。
+      model-name: text-embedding-v4
+
+  rag:
+    docs-location: docs
+    max-results: 5
+    # 相似度下限与向量模型强相关, 更换 embedding 模型后需重新标定
+    min-score: 0.8
+
+bigmodel:
+  # 智谱 web_search MCP 为可选能力, 配置 api-key 后才会启用
+  mcp:
+    # 智谱要求把 Authorization 放在 URL 上, 开启后密钥会被打印到日志中
+    logging: false
